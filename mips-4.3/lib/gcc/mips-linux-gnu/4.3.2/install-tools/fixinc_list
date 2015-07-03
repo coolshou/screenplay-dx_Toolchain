@@ -1,0 +1,8 @@
+;
+/uclibc;/uclibc
+;/soft-float
+;/el
+;/soft-float/el
+/uclibc;/uclibc/soft-float
+/uclibc;/uclibc/el
+/uclibc;/uclibc/soft-float/el

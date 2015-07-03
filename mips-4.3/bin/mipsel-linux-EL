@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# This is the wrapper of CodeSourcery programs
+
+PROG_NAME=`basename $0 | awk -F - '{ print $4 }'`
+if [ "$PROG_NAME" = "" ]; then
+	PROG_NAME=`basename $0 | awk -F - '{ print $3 }'`
+fi
+CS_PREFIX=mips-linux-gnu
+INVOKE_PROG_NAME=$CS_PREFIX-$PROG_NAME
+REAL_PROG_NAME=`which $INVOKE_PROG_NAME`
+
+if [ "$REAL_PROG_NAME" = "" ]; then
+	echo "program $INVOKE_PROG_NAME not found"
+	exit 1
+fi
+
+exec $INVOKE_PROG_NAME -EL $*
+

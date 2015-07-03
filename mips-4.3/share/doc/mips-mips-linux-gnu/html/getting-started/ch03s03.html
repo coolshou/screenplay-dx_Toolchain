@@ -1,0 +1,251 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Sourcery G++ Lite Release Notes</title><link rel="stylesheet" href="cs.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><link rel="start" href="index.html" title="Sourcery G++ Lite"><link rel="up" href="chap-release.html" title="Chapter 3. Sourcery G++ Lite for MIPS GNU/Linux"><link rel="prev" href="ch03s02.html" title="Using Sourcery G++ Lite for MIPS GNU/Linux"><link rel="next" href="chap-installation.html" title="Chapter 4. Installation and Configuration"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Sourcery G++ Lite Release Notes</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s02.html">Prev</a> </td><th width="60%" align="center">Chapter 3. Sourcery G++ Lite for MIPS GNU/Linux</th><td width="20%" align="right"> <a accesskey="n" href="chap-installation.html">Next</a></td></tr></table><hr></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id298876"></a>Sourcery G++ Lite Release Notes</h2></div></div></div><p>
+      This section documents Sourcery G++ Lite changes for each released revision.
+    </p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id298891"></a>Changes in Sourcery G++ Lite 4.3-51</h3></div></div></div><p><b>Setting breakpoints on Windows. </b>
+	  A bug in GDB on Microsoft Windows hosts has been fixed.  The bug
+	  caused setting breakpoints on a source line by using the file's
+	  full path to fail with <code class="literal">No source file named
+	  <em class="replaceable"><code>filename</code></em>.</code>
+	  
+	</p><p><b>Printing casted values in GDB. </b>
+	  A GDB bug that caused incorrect output for expressions
+	  containing casts, such as in the
+	  <code class="literal">print *(Type *)ptr</code> command, has been fixed.
+	</p><p><b>Bug fix for objcopy/strip. </b>
+          An objcopy bug that corrupted COMDAT groups when creating new
+	  binaries has been fixed.  This bug also affected
+	  <span><strong class="command">strip -g</strong></span>.
+        </p><p><b>Bug fix for assembly listing. </b>
+	  A bug that caused the assembler to produce corrupted
+	  listings (via the <code class="option">-a</code> option) on Windows
+	  hosts has been fixed.
+        </p><p><b>GDB update. </b>
+	  The included version of GDB has been updated to
+	  6.8.50.20080821.  This update adds numerous bug fixes and
+	  new features, including support for decimal floating point,
+	   the new <span><strong class="command">find</strong></span> command to
+	  search memory, the new <code class="option">/m</code> (mixed
+	  source and assembly) option to the
+	  <span><strong class="command">disassemble</strong></span> command, and the new
+	  <span><strong class="command">macro define</strong></span> command to define C
+	  preprocessor macros interactively.
+        </p><p><b>PIE linking fix. </b>
+	  A bug in the GCC <code class="option">-fpie</code> and <code class="option">-fPIE</code>
+	  options has been fixed.  The bug caused linker errors referring
+	  to <code class="literal">R_MIPS_HI16</code>.
+	</p><p><b>Binutils support for DWARF Version 3. </b>
+	  The <span><strong class="command">addr2line</strong></span> command now supports
+	  binaries containing DWARF 3 debugging information.  The
+	  <span><strong class="command">ld</strong></span> command can display error messages
+	  with source locations for input files containing DWARF 3
+	  debugging information.
+	</p><p><b>GDB display of source. </b>
+	  A bug has been fixed that prevented GDB from locating debug
+	  information in some cases.  The debugger failed to display
+	  source code for or step into the affected functions.
+	</p><p><b>Connecting to the target using a pipe. </b>
+	  A bug in GDB's
+	  <span><strong class="command">target remote | <em class="replaceable"><code>program</code></em></strong></span>
+	  command has been fixed.  When launching the specified
+	  <em class="replaceable"><code>program</code></em> failed, the bug caused
+	  GDB to crash, hang, or give a message
+	  <code class="literal">Error: No Error</code>.
+	  
+	  
+	</p><p><b>Remote debugging improvements. </b>
+	  The <span><strong class="command">gdbserver</strong></span> utility now supports a more
+	  efficient communications protocol that can reduce latency during
+	  remote debugging.  The protocol optimizations are enabled
+	  automatically when <span><strong class="command">gdbserver</strong></span> operates over
+	  a TCP connection.  Refer to the GDB manual for more information.
+        </p><p><b>PIE support in uClibc. </b>
+	  PIE (Position Independent Executable) support is now enabled in
+	  the included uClibc.
+        </p><p><b>RPC support in uClibc. </b>
+	  RPC (Remote Procedure Call) support is now enabled in the
+	  included uClibc.  This feature is required to build BusyBox
+	  with NFS support.
+        </p><p><b>Errors after loading the debugged program. </b>
+          An intermittent GDB bug has been fixed.  The bug could cause
+	  a GDB internal error
+	  
+	  after the <span><strong class="command">load</strong></span> command.
+        </p><p><b>Bug fix for objdump on Windows. </b>
+          An objdump bug that caused the <code class="option">-S</code> option
+          not to work on Windows in some cases has been fixed.
+        </p><p><b>Persistent remote server connections. </b>
+	  A GDB bug has been fixed that caused the <span><strong class="command">target
+	  extended-remote</strong></span> command to fail to tell the
+	  remote server to make the connection persistent across
+	  program invocations.
+	</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id299301"></a>Changes in Sourcery G++ Lite 4.3-7</h3></div></div></div><p><b>FPU defaults. </b>
+ 	  The <code class="option">-ffast-math</code> option now causes subnormal
+ 	  numbers to be immediately flushed to zero.  It also sets the
+ 	  rounding mode to round-to-nearest.
+         </p><p><b>DSP support. </b>
+	  The compiler now automatically enables support for the DSP ASE when the
+	  <code class="option">-march</code> option is used to specify a core in the 24KE, 34K,
+	  or 74K families.  It is no longer necessary to provide the
+	  <code class="option">-mdsp</code> option explicitly.
+	</p><p><b>GCC version 4.3.2. </b>
+          Sourcery G++ Lite for MIPS GNU/Linux is now based on GCC version 4.3.2.
+          For more information about changes from GCC version 4.2 that was
+          included in previous releases, see
+          <code class="uri">http://gcc.gnu.org/gcc-4.3/changes.html</code>.
+        </p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id299559"></a>Changes in Sourcery G++ Lite 4.2-177</h3></div></div></div><p><b>Linker bug affecting Library Reduction Utility. </b>
+	 A linker bug has been fixed that caused the
+	 <span><strong class="command">mips-linux-gnu-mklibs</strong></span> Library Reduction Utility to
+	 produce invalid output when relinking <code class="filename">libc.so</code>.
+	 The bug could also affect linking of other shared libraries containing weak
+	undefined symbols with non-default visibility.
+	</p><p><b>Linker bug fix for <code class="option">--gc-sections</code>. </b>
+	 A linker bug that caused certain linker-generated sections to be incorrectly
+	 omitted from the executable when the <code class="option">--gc-sections</code> option is
+	 used has been fixed.
+	</p><p><b>Architecture level inference fix. </b>
+          The <code class="option">-march=4kp</code> and <code class="option">-march=4ksc</code> 
+          options now imply <code class="option">-mips32</code> and the 
+          <code class="option">-march=4ksd</code> option implies 
+          <code class="option">-mips32r2</code>. The erroneous option 
+          <code class="option">-march=4kf</code> has been removed.
+        </p><p><b>Flags fix. </b>
+          The <code class="option">-mips3d</code> and <code class="option">-mpaired-single</code> 
+          options can now be used with <code class="option">-mips32r2</code> as well as 
+          <code class="option">-mips64</code>.
+        </p><p><b>Output files removed on error. </b>
+	  When GCC encounters an error, it now consistently removes
+	  any incomplete output files that it may have created.
+        </p><p><b><code class="option">-mwarn-framesize=<em class="replaceable"><code>size</code></em></code> option. </b>
+          GCC has a new command-line option,
+          <code class="option">-mwarn-framesize=<em class="replaceable"><code>size</code></em></code>,
+          which causes warnings if any function's stack frame exceeds
+          the given <em class="replaceable"><code>size</code></em>.  This option is useful
+          when generating code for environments with limited or absent
+          stack, e.g., BIOS.
+        </p><p><b>"Can't find matching LO16" linker error fixed. </b>
+	  An assembler bug that caused errors when linking files containing mixed MIPS16
+	  and non-MIPS16 code has been fixed. 
+        </p><p><b>Misaligned accesses to packed structures fix. </b>
+          A bug that caused GCC to generate misaligned accesses to
+          packed structures has been fixed.  
+        </p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id299777"></a>Changes in Sourcery G++ Lite 4.2-155</h3></div></div></div><p><b><code class="literal">jalx</code> instruction. </b>
+        The assembler no longer reports an error if the <code class="literal">jalx</code>
+        instruction is used outside of MIPS16 mode.
+      </p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id299816"></a>Changes in Sourcery G++ Lite 4.2-129</h3></div></div></div><p><b>Bug fix in <code class="function">fesetround</code>. </b>
+	  A bug in <code class="function">fesetround</code> has been fixed.
+	  Earlier versions of <code class="function">fesetround</code> incorrectly
+	  cleared the upper half of the FCSR (floating-point control and status
+	  register).
+        </p><p><b>MIPS local GOT space. </b>
+          A linker bug that caused the error "not enough GOT space for local
+          GOT entries" has been fixed.
+        </p><p><b>Change to default target architecture. </b>
+	  The compiler now generates code for MIPS32r2 processors by default,
+	  rather than the original MIPS32 ISA.  
+	  This is an incompatible change from previous releases of Sourcery G++ Lite.
+	  To build applications for MIPS32 processors,
+	  add an explicit <code class="option">-march=mips32</code>
+	  option to your compile and link commands.
+	  Refer to the GCC manual for additional information about
+	  supported targets and <code class="option">-march</code> options.
+        </p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id299904"></a>Changes in Sourcery G++ Lite 4.2-116</h3></div></div></div><p><b>GDB and <span><strong class="keycap">Ctrl</strong></span>-<span><strong class="keycap">C</strong></span> on Windows
+	. </b>
+	  GDB no longer crashes when you press
+	  <span><strong class="keycap">Ctrl</strong></span>-<span><strong class="keycap">C</strong></span>
+	  twice during remote debugging to give up waiting for the target.
+        </p><p><b>MDI support in GDB. </b>
+          GDB now supports MDI, the MIPS Debug Interface protocol.
+        </p><p><b>GCC update. </b>
+	  The GCC package has been updated to version 4.2.3.  This version
+	  includes numerous bug fixes since GCC 4.2.
+	</p><p><b>GDB support for user-defined prefixed commands. </b>
+	  The GDB <span><strong class="command">define</strong></span> and
+	  <span><strong class="command">document</strong></span> commands, which allow you to
+	  add new commands to the GDB command-line interface, now
+	  support creating commands within an existing prefix
+	  such as <span><strong class="command">target</strong></span>.  Hooks for prefixed
+	  commands are also supported.  Refer to the Debugger manual
+	  for more information.
+	</p><p><b>UNC pathname bug fix. </b>
+          A bug has been fixed that caused linker errors on Windows
+          hosts when running a Sourcery G++ toolchain installed in a UNC
+          path
+          (<code class="filename">\\<em class="replaceable"><code>host</code></em>\<em class="replaceable"><code>directory</code></em></code>).
+        </p><p><b>GDB <span><strong class="command">info registers</strong></span> crash fix. </b>
+          Executing <span><strong class="command">info registers</strong></span> after
+          executing <span><strong class="command">flushregs</strong></span> no longer crashes GDB.
+        </p><p><b>GDB search path bug fix. </b>
+	  A bug in GDB has been fixed that formerly resulted in an internal
+	  error when setting <code class="varname">solib-search-path</code> or
+	  <code class="varname">solib-absolute-prefix</code> after establishing a
+	  connection to a remote target.
+        </p><p><b>Binutils update. </b>
+	  The binutils package has been updated to version
+	  2.18.50.20080215 from the FSF trunk.  This update includes
+	  numerous bug fixes.
+        </p><p><b>Race fixes in <code class="function">setuid</code>. </b>
+	  Several bugs in multi-threaded <code class="function">setuid</code>
+	  have been fixed.  The bugs led to threads with incorrect
+	  privileges and hangs at thread exit.  The
+	  <code class="function">setgid</code>, <code class="function">seteuid</code>,
+	  <code class="function">setegid</code>, <code class="function">setreuid</code>,
+	  <code class="function">setregid</code>,
+	  <code class="function">setresuid</code>, and
+	  <code class="function">setresgid</code> functions were also affected.
+        </p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id300213"></a>Changes in Sourcery G++ Lite 4.2-87</h3></div></div></div><p><b>Improved argument-passing code. </b>
+          The compiler can now generate more efficient code for
+	  certain functions whose arguments must be sign-extended
+	  to conform with language or ABI conventions.
+	  The required conversion was formerly being performed both 
+          in the called function and at all call sites; now the redundant
+	  conversion has been eliminated for functions that can only be 
+          called within the compilation unit where they are defined.
+        </p><p><b>Multi-process mode for <span><strong class="command">gdbserver</strong></span>. </b>
+	  The <span><strong class="command">gdbserver</strong></span> utility has a new command-line option,
+	  <code class="option">--multi</code>, that allows you to use it to debug multiple
+	  program instances.  Refer to the Debugger manual for more information.
+	</p><p><b>Raza XLR processor support. </b>
+          Sourcery G++ now supports the Raza XLR processor.  To generate
+          code for this processor, use the option
+          <code class="option">-march=xlr</code>.
+        </p><p><b>MIPS16 debugging information. </b>
+	  GCC now produces more accurate line number information for
+	  the debugger when <code class="option">-mips16</code> is specified.
+        </p><p><b>GCC stack size limit increased. </b>
+          On Windows hosts, the maximum stack size for the GCC
+          executable has been increased.  This means that more complex
+          programs can be compiled.
+        </p><p><b>Invalid object file after strip. </b>
+	 A bug in the assembler has been fixed that formerly caused
+	 <code class="literal">.set <em class="replaceable"><code>symbol</code></em>
+	 <em class="replaceable"><code>expression</code></em></code>
+	 constructs to emit <em class="replaceable"><code>symbol</code></em> in the
+	 wrong section.  This in turn caused inconsistent behavior
+	 after stripping the symbol table. 
+        </p><p><b>Code generation improvements. </b>
+          The compiler's code size and instruction selection heuristics
+          have been further tuned to produce better code for MIPS processors.
+        </p><p><b>New Octeon instructions. </b>
+          The assembler now supports the Cavium Octeon instructions
+          <code class="literal">saa</code> and <code class="literal">saad</code>.
+        </p><p><b><code class="option">-mcode-readable</code> option. </b>
+          GCC has a new command-line option,
+          <code class="option">-mcode-readable</code>, that can be used to 
+          control placement of constant data in executable code sections.
+          This option is useful when generating MIPS16 code for processors
+          that restrict instruction access to executable sections,
+          such as 4KSc and 4KSd processors when the code
+          TLBs have the Read Inhibit bit set, or processors that have a
+          dual instruction/data SRAM interface.  
+          Consult the GCC documentation for more information about this
+	  option.
+        </p><p><b>GDB update. </b>
+	  The included version of GDB has been updated to
+          6.7.20080107.  This update includes numerous bug fixes.
+        </p><p><b><span><strong class="command">gdbserver</strong></span> support for execution wrappers. </b>
+	  <span><strong class="command">gdbserver</strong></span> has a new command-line option,
+	  <code class="option">--wrapper</code>, which specifies a wrapper for any
+	  programs run by <span><strong class="command">gdbserver</strong></span>.  The specified wrapper can
+	  prepare the system and environment for the new program.
+        </p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id300500"></a>Changes in Sourcery G++ Lite 4.2-85</h3></div></div></div><p><b>Initial release. </b>
+          This is the initial release for MIPS GNU/Linux.
+        </p></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch03s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="chap-release.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="chap-installation.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Using Sourcery G++ Lite for MIPS GNU/Linux </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> Chapter 4. Installation and Configuration</td></tr></table></div></body></html>

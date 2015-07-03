@@ -1,0 +1,127 @@
+/********************************************************************************************
+ *     LEGAL DISCLAIMER
+ *
+ *     (Source of MIPS GNU/Linux)
+ *
+ *     THIS SOURCE IS PROVIDED BY CodeSourcery (http://www.codesourcery.com/)
+ *     IN OUR BUILDING PROCESSES, WE USED BINARY PROVIDED BY CODE SOURCERY DIRECTLY WITHOUT BUILD THE SOURCE FIRST
+ *     THUS, THIS SOURCE IS PROVIDED TOU YOU IN "AS-IS" BASIS ONLY
+ *     IF YOU HAVE ANY TROUBLES OR QUESTIONS PLEASE REFER TO THEIR WEBSITE
+ *
+ *     MIPS GNU/Linux MAIN PAGE URL : http://www.codesourcery.com/sgpp/lite/mips/portal/release607     
+ *     TO DOWNLOAD THE SOURCE : http://www.codesourcery.com/sgpp/lite/mips/portal/package3545/public/mips-linux-gnu/mips-4.3-51-mips-linux-gnu.src.tar.bz2
+ *     TO DOWNLOAD THE BINARY : http://www.codesourcery.com/sgpp/lite/mips/portal/package3548/public/mips-linux-gnu/mips-4.3-51-mips-linux-gnu.bin 
+ ************************************************************************************************/
+
+These are our CUSTOM steps to build Sourcery G++ Lite 4.3-51 for MIPS GNU/Linux:
+0. FRESH Install UBuntu 8.04 and please don't use schroot as I tested with it, it's failed to build (Other System is not tested)
+1. login with root user name
+2. Change sh link to bash
+   cd /bin
+   rm -f sh
+   ln -s bash sh
+3. Install required packages to install this toolchain
+   apt-get install gcc
+   apt-get install build-essential
+   apt-get install bison
+   apt-get install flex
+   apt-get install texinfo
+   apt-get install gettext
+   apt-get install texlive
+   apt-get install texlive-extra-utils
+   apt-get install texlive-base-bin dvidvi
+   apt-get install gawk
+   apt-get install libncurses5-dev
+4. download source from www.codesourcery.com / use provided package
+   -http://www.codesourcery.com/sgpp/lite/mips/portal/package3545/public/mips-linux-gnu/mips-4.3-51-mips-linux-gnu.src.tar.bz2 (source code)
+5. create folders using command bellow:
+    mkdir -p /scratch/clm/2008q3-src/src
+6. extract mips-4.3-51-mips-linux-gnu.src.tar.bz2 to /scratch/clm/2008q3-src/src folder
+    tar -xvf mips-4.3-51-mips-linux-gnu.src.tar.bz2
+7a. untar all packages in /scratch/clm/2008q3-src/src folder
+
+	tar -xvf binutils-4.3-51.tar.bz2
+	tar -xvf coreutils-4.3-51.tar.bz2
+	tar -xvf expat-4.3-51.tar.bz2
+	tar -xvf gcc-4.3-51.tar.bz2
+	tar -xvf gdb-4.3-51.tar.bz2
+	tar -xvf glibc-4.3-51.tar.bz2
+	tar -xvf glibc_localedef-4.3-51.tar.bz2
+	tar -xvf glibc_ports-4.3-51.tar.bz2
+	tar -xvf gmp-4.3-51.tar.bz2
+	tar -xvf libiconv-4.3-51.tar.bz2
+	tar -xvf linux-4.3-51.tar.bz2
+	tar -xvf make-4.3-51.tar.bz2
+	tar -xvf mpfr-4.3-51.tar.bz2
+	tar -xvf uclibc-4.3-51.tar.bz2
+	tar -xvf zlib-4.3-51.tar.bz2
+
+7b. Please patch linux kernel (you can either download it from https://patchwork.kernel.org/patch/11166/ or use the provided one)
+    copy the patch file into /scratch/clm/2008q3-src/src folder
+    cd /scratch/clm/2008q3-src/src/linux-stable
+    patch -p1 < ../unidef-getline-patch.diff
+
+8.	remove all *.tar.bz2 in /scratch/clm/2008q3-src/src folder
+	rm *.tar.bz2
+	
+
+9.  execute provided script from any directory you want :	
+	-sh run.sh
+	-after a few minutes, you will get an error from binutils package, 
+	
+		/scratch/clm/2008q3-lite/obj/binutils-src-4.3-51-mips-linux-gnu-i686-pc-linux-gnu/etc/configure.texi:1090:  ==> Fatal error occurred, no output PDF file produced!
+		Transcript written on configure.log.
+		/usr/bin/texi2dvi: pdfetex exited with bad status, quitting.
+		
+		Please igonore this error, as it won't harm anything.
+		
+	-open then script run.sh,
+		delete Task 002 - 045, !!!You must delete it or it will need to start over.!!!
+		
+	-after 2-3 hours, you will see an error that we made
+	
+		"This error is intentionally made to handle GCC bug, please read the Readme file"
+		
+
+	-This error is made to handle GCC Bug that when you compile the gcc using the same version of gcc, for quick fix you need change value of RPATH_ENVVAR in Makefile located in /scratch/clm/2008q3-lite/obj/gcc-4.3-51-mips-linux-gnu-i686-pc-linux-gnu
+		please go to /scratch/clm/2008q3-lite/obj/gcc-4.3-51-mips-linux-gnu-i686-pc-linux-gnu directory
+		open Makefile
+		change value of RPATH_ENVVAR to RPATH_ENVVAR=MY_LD_LIBRARY_PATH in line 98
+	
+	-!!!!YOU MUST delete Task 046-114, or you will need to start over!!!!
+	
+	-run the script again.
+	
+	-(again!) after a few hours you will got an error like in binutils package, but now it's from gdb
+	
+		Transcript written on configure.log.
+		/usr/bin/texi2dvi: pdfetex exited with bad status, quitting.
+		
+		Please igonore this error, as it won't harm anything.
+		
+	-open then script run.sh,
+		delete Task 115 - 128, !!!You must delete it or it will need to start over.!!!
+
+	-run the script again.
+	
+	and wait about a few minutes to finish whole things.
+	
+
+10. after whole installation processes are finished, you can take the binaries from /scratch/clm/2008q3-lite/pkg/mips-4.3-51-mips-linux-gnu-i686-pc-linux-gnu.tar.bz2
+
+11. extract it and put in the /opt/ directory
+
+12. copy the provided scripts in "scripts.zip" to /opt/mips-4.3/bin/
+    (this scripts are needed to successfully build our firmware)
+
+
+****Notes****
+If you encouter a problem for something that related with "awk" or "gen-sorted.awk", you can try to modify it:
+-open /scratch/clm/2008q3-src/src/glibc-2.8/scripts/gen-sorted.awk
+-go to line 19, 59, 65, change the code those lines from
+ 
+	sub(/\/[^/]+$/, "" ...
+ 
+			to 
+ 
+	sub(/\/[^\/]+$/, "" ...

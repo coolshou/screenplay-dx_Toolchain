@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# This is the wrapper of CodeSourcery programs
+
+EXTRA_OPTS=""
+PROG_NAME=`basename $0 | awk -F - '{ print $4 }'`
+if [ "$PROG_NAME" = "" ]; then
+	PROG_NAME=`basename $0 | awk -F - '{ print $3 }'`
+fi
+CS_PREFIX=mips-linux-gnu
+INVOKE_PROG_NAME=$CS_PREFIX-$PROG_NAME
+REAL_PROG_NAME=`which $INVOKE_PROG_NAME`
+
+if [ "$REAL_PROG_NAME" = "" ]; then
+	echo "program $INVOKE_PROG_NAME not found"
+	exit 1
+fi
+
+if [ ! "$SMP86XX_ROOTFS_PATH" = "" -a -d "$SMP86XX_ROOTFS_PATH" ]; then
+    EXTRA_OPTS="-I$SMP86XX_ROOTFS_PATH/cross_rootfs/include -L$SMP86XX_ROOTFS_PATH/cross_rootfs/lib"
+fi
+
+USE_GLIBC=`echo $COMPILKIND | grep glibc`
+USE_UCLIBC=`echo $COMPILKIND | grep uclibc`
+if [ "$USE_GLIBC" = "" -a "$USE_UCLIBC" = "" ]; then
+	echo "Please use COMPILKIND to specify which libc runtime to use (uclibc/glibc)." 
+	exit 1
+fi
+if [ ! "$USE_GLIBC" = "" -a ! "$USE_UCLIBC" = "" ]; then
+	echo "Both uclibc and glibc are specified in COMPILKIND."
+	exit 1
+fi
+if [ ! "$USE_UCLIBC" = "" ]; then
+	EXTRA_OPTS="-muclibc $EXTRA_OPTS"
+fi
+
+USE_HARD_FLOAT=`echo $COMPILKIND | grep hardfloat`
+USE_SOFT_FLOAT=`echo $COMPILKIND | grep softfloat`
+if [ "$USE_HARD_FLOAT" = "" -a "$USE_SOFT_FLOAT" = "" ]; then
+	echo "Please use COMPILKIND to specify which floating point mode to use (hardfloat/softfloat)." 
+	exit 1
+fi
+if [ ! "$USE_HARD_FLOAT" = "" -a ! "$USE_SOFT_FLOAT" = "" ]; then
+	echo "Both hardfloat and softfloat are specified in COMPILKIND."
+	exit 1
+fi
+if [ ! "$USE_SOFT_FLOAT" = "" ]; then
+    EXTRA_OPTS="-msoft-float $EXTRA_OPTS"
+fi
+
+exec $INVOKE_PROG_NAME -EL $EXTRA_OPTS $*
+
